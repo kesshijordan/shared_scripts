@@ -85,10 +85,16 @@ if __name__ == '__main__':
             raise('Please ensure that exactly one filename matches your '
                   'template in each category: diff data, bval, bvec, mask')
     elif len(sys.argv) == 5:
+        print("Calculating AP from 4 files given")
         nii_path = sys.argv[1]
         bval_path = sys.argv[2]
         bvec_path = sys.argv[3]
         mask_path = sys.argv[4]
     else:
         raise('Input not recognized as valid combination')
+    print('Processing APM with:')
+    print(nii_path)
+    print(bval_path)
+    print(bvec_path)
+    print(mask_path)
     process_CL(nii_path, bval_path, bvec_path, mask_path)
