@@ -57,33 +57,38 @@ def process_CL(data_path, bval_path, bvec_path, mask_path):
     return savenii
 
 
+def find_files(input_path):
+    basename = input_path.split('.')[0]
+    print('processing %s' % (basename))
+
+    # make sure there aren't multiple file names that fit template
+    nii_path = glob(basename + '.nii*')
+    bval_path = glob(basename + '.bval')
+    bvec_path = glob(basename + '.bvec')
+    mask_path = glob(basename + '_mask.nii*')
+
+    if len(nii_path) == 1 and len(bval_path) == 1 and len(bvec_path) == 1:
+        nii_path = nii_path[0]
+        bval_path = bval_path[0]
+        bvec_path = bvec_path[0]
+        mask_path = mask_path[0]
+    else:
+        print(nii_path)
+        print(bval_path)
+        print(bvec_path)
+        print(mask_path)
+        raise('Please ensure that exactly one filename matches your '
+              'template in each category: diff data, bval, bvec, mask')
+    return nii_path, bval_path, bvec_path, mask_path
+
+
 if __name__ == '__main__':
     import sys
 
     if len(sys.argv) == 2:
         print("Looking for matches to template")
         input_path = op.abspath(sys.argv[1])
-        basename = input_path.split('.')[0]
-        print('processing %s' % (basename))
-
-        # make sure there aren't multiple file names that fit template
-        nii_path = glob(basename + '.nii*')
-        bval_path = glob(basename + '.bval')
-        bvec_path = glob(basename + '.bvec')
-        mask_path = glob(basename + '_mask.nii*')
-
-        if len(nii_path) == 1 and len(bval_path) == 1 and len(bvec_path) == 1:
-            nii_path = nii_path[0]
-            bval_path = bval_path[0]
-            bvec_path = bvec_path[0]
-            mask_path = mask_path[0]
-        else:
-            print(nii_path)
-            print(bval_path)
-            print(bvec_path)
-            print(mask_path)
-            raise('Please ensure that exactly one filename matches your '
-                  'template in each category: diff data, bval, bvec, mask')
+        nii_path, bval_path, bvec_path, mask_path = find_files(input_path)
     elif len(sys.argv) == 5:
         print("Calculating AP from 4 files given")
         nii_path = sys.argv[1]
