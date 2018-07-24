@@ -2,7 +2,11 @@
 import nibabel as nib
 import sys
 '''
-This is a quick script to address an incompatability between how .trk files have been saved historically (in the henry lab) and the new nibabel API. The loading does not accept lowercase voxel order, and the choice was not to extend the API to lowercase (instead enforce the file format), which means historical .trk files need to be converted.
+This is a quick script to address an incompatability between how .trk 
+files have been saved historically (in the henry lab) and the new nibabel 
+API. The loading does not accept lowercase voxel order, and the choice was 
+not to extend the API to lowercase (instead enforce the file format), which 
+means historical .trk files need to be converted.
 '''
 badfile = sys.argv[1]
 
